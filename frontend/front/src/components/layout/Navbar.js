@@ -1,195 +1,239 @@
 import React, { useState } from 'react';
-import { 
-  AppBar, 
-  Box, 
-  Toolbar, 
-  IconButton, 
-  Typography, 
-  Menu, 
-  MenuItem, 
-  Container, 
-  Avatar, 
-  Button, 
-  Tooltip,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
+import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Avatar,
+  Box,
+  Chip,
+  Divider,
   ListItemIcon,
-  ListItemText,
-  Divider
+  ListItemText
 } from '@mui/material';
-import { 
-  Menu as MenuIcon, 
-  Home as HomeIcon,
-  CloudUpload as UploadIcon,
-  Collections as GalleryIcon,
-  Person as PersonIcon,
-  Logout as LogoutIcon
+import {
+  Menu as MenuIcon,
+  AccountCircle,
+  Logout,
+  Dashboard,
+  CloudUpload,
+  PhotoLibrary,
+  Settings,
+  AdminPanelSettings,
+  Security
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-const pages = [
-  { name: 'Home', icon: <HomeIcon />, path: '/dashboard' },
-  { name: 'Upload Images', icon: <UploadIcon />, path: '/dashboard/upload' },
-  { name: 'My Gallery', icon: <GalleryIcon />, path: '/dashboard/gallery' },
-  { name: 'Profile', icon: <PersonIcon />, path: '/dashboard/profile' }
-];
-
-const Navbar = ({ user, onLogout }) => {
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+const Navbar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { user, isAuthenticated, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
-    handleCloseUserMenu();
-    localStorage.removeItem('user');
-    if (onLogout) {
-      onLogout();
-    }
+    logout();
+    handleClose();
+    navigate('/auth');
   };
 
   const handleNavigation = (path) => {
     navigate(path);
-    setDrawerOpen(false);
+    handleClose();
   };
 
+  const isActive = (path) => location.pathname === path;
+
+  if (!isAuthenticated) {
+    return null; // Ne pas afficher la navbar si non connecté
+  }
+
   return (
-    <>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2, display: { md: 'none' } }}
-              onClick={() => setDrawerOpen(!drawerOpen)}
-            >
-              <MenuIcon />
-            </IconButton>
-            
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/dashboard"
+    <AppBar position="sticky" elevation={2}>
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+          onClick={() => navigate('/dashboard')}
+        >
+          <MenuIcon />
+        </IconButton>
+
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+          onClick={() => navigate('/dashboard')}
+        >
+          🖼️ SteganoIA
+        </Typography>
+
+        {/* Navigation Links */}
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+          <Button
+            color="inherit"
+            startIcon={<Dashboard />}
+            onClick={() => navigate('/dashboard')}
+            variant={isActive('/dashboard') ? 'outlined' : 'text'}
+          >
+            Dashboard
+          </Button>
+
+          <Button
+            color="inherit"
+            startIcon={<CloudUpload />}
+            onClick={() => navigate('/upload')}
+            variant={isActive('/upload') ? 'outlined' : 'text'}
+          >
+            Upload
+          </Button>
+
+          <Button
+            color="inherit"
+            startIcon={<PhotoLibrary />}
+            onClick={() => navigate('/gallery')}
+            variant={isActive('/gallery') ? 'outlined' : 'text'}
+          >
+            Galerie
+          </Button>
+        </Box>
+
+        {/* User Info & Menu */}
+        <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+          <Chip
+            icon={isAdmin() ? <AdminPanelSettings /> : <Security />}
+            label={user?.username || 'Utilisateur'}
+            variant="outlined"
+            sx={{
+              color: 'white',
+              borderColor: 'rgba(255,255,255,0.5)',
+              mr: 1
+            }}
+          />
+
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+          >
+            <Avatar
               sx={{
-                mr: 2,
-                display: 'flex',
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.1rem',
-                color: 'inherit',
-                textDecoration: 'none',
+                width: 32,
+                height: 32,
+                bgcolor: isAdmin() ? 'secondary.main' : 'primary.dark'
               }}
             >
-              STEGANO-FLASK
-            </Typography>
+              {user?.username?.charAt(0).toUpperCase() || 'U'}
+            </Avatar>
+          </IconButton>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page.name}
-                  onClick={() => handleNavigation(page.path)}
-                  sx={{ my: 2, color: 'white', display: 'flex', alignItems: 'center' }}
-                  startIcon={page.icon}
-                >
-                  {page.name}
-                </Button>
-              ))}
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {/* User Info */}
+            <Box sx={{ px: 2, py: 1 }}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Connecté en tant que
+              </Typography>
+              <Typography variant="body1" fontWeight="bold">
+                {user?.username}
+              </Typography>
+              <Chip
+                size="small"
+                label={user?.role}
+                color={isAdmin() ? 'secondary' : 'primary'}
+                sx={{ mt: 0.5 }}
+              />
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={user?.name || 'User'} src="/static/images/avatar/2.jpg">
-                    {(user?.name || 'U')[0].toUpperCase()}
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                <MenuItem onClick={() => { handleCloseUserMenu(); navigate('/dashboard/profile'); }}>
-                  <ListItemIcon>
-                    <PersonIcon fontSize="small" />
-                  </ListItemIcon>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                  <ListItemIcon>
-                    <LogoutIcon fontSize="small" />
-                  </ListItemIcon>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      
-      {/* Mobile Drawer */}
-      <Drawer
-        variant="temporary"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        ModalProps={{
-          keepMounted: true, // Better mobile performance
-        }}
-        sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
-        }}
-      >
-        <Toolbar /> {/* This creates space below the AppBar */}
-        <Box sx={{ overflow: 'auto' }}>
-          <List>
-            {pages.map((page) => (
-              <ListItem key={page.name} disablePadding>
-                <ListItemButton onClick={() => handleNavigation(page.path)}>
-                  <ListItemIcon>
-                    {page.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={page.name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
             <Divider />
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleLogout}>
-                <ListItemIcon>
-                  <LogoutIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItemButton>
-            </ListItem>
-          </List>
+
+            {/* Navigation Menu Items (Mobile) */}
+            <MenuItem
+              onClick={() => handleNavigation('/dashboard')}
+              selected={isActive('/dashboard')}
+            >
+              <ListItemIcon>
+                <Dashboard fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Dashboard</ListItemText>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => handleNavigation('/upload')}
+              selected={isActive('/upload')}
+            >
+              <ListItemIcon>
+                <CloudUpload fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Upload Images</ListItemText>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => handleNavigation('/gallery')}
+              selected={isActive('/gallery')}
+            >
+              <ListItemIcon>
+                <PhotoLibrary fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Galerie</ListItemText>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => handleNavigation('/profile')}
+              selected={isActive('/profile')}
+            >
+              <ListItemIcon>
+                <Settings fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Profil</ListItemText>
+            </MenuItem>
+
+            <Divider />
+
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Se déconnecter</ListItemText>
+            </MenuItem>
+          </Menu>
         </Box>
-      </Drawer>
-    </>
+      </Toolbar>
+    </AppBar>
   );
 };
 

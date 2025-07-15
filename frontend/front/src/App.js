@@ -5,10 +5,10 @@ import './App.css';
 
 // Pages
 import Auth from './pages/Auth';
-import Dashboard from './pages/Dashboard';
-import UploadImages from './pages/UploadImages';
-import Gallery from './pages/Gallery';
-import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard.jsx';
+import UploadImages from './pages/UploadImages.jsx';
+import Gallery from './pages/Gallery.jsx';
+import Profile from './pages/Profile.jsx';
 
 // Layout
 import DashboardLayout from './components/layout/DashboardLayout';
