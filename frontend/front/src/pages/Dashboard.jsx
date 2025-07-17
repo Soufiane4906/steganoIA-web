@@ -28,6 +28,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useImageList } from '../hooks/useImages';
 import { analysisUtils, dateUtils } from '../utils';
 import FlaskConnectionTest from '../components/FlaskConnectionTest';
+import FlaskImageProcessor from '../components/FlaskImageProcessor';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -138,6 +139,11 @@ const Dashboard = () => {
 
       {/* Test de connexion Flask */}
       <FlaskConnectionTest />
+
+      {/* Laboratoire Flask - Stéganographie Avancée */}
+      <Box sx={{ mb: 4 }}>
+        <FlaskImageProcessor />
+      </Box>
 
       {/* Statistiques */}
       <Grid container spacing={3} sx={{ mb: 4 }}>

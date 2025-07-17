@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, send_from_directory, current_app
+from flask_cors import CORS, cross_origin
 from werkzeug.exceptions import BadRequest
 import logging
 import os
@@ -16,6 +17,17 @@ logger = logging.getLogger(__name__)
 
 # Créer le blueprint v2 avec un nom unique
 image_bp_v2 = Blueprint('images_v2', __name__, url_prefix='/api/v2')
+
+# Configuration CORS pour le blueprint
+def configure_cors(app):
+    """Configure CORS pour l'application Flask."""
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": ["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization", "Accept"]
+        }
+    })
 
 # Initialiser les services globaux
 image_service = None
@@ -38,6 +50,7 @@ def init_image_api(app):
     logger.info("✅ Services d'images avancés initialisés")
 
 @image_bp_v2.route('/upload', methods=['POST'])
+@cross_origin()
 def upload_and_analyze():
     """
     Endpoint pour télécharger et analyser une image.
@@ -157,6 +170,7 @@ def upload_and_analyze():
         return jsonify({"error": f"Erreur lors de l'analyse: {str(e)}"}), 500
 
 @image_bp_v2.route('/add_steganography', methods=['POST'])
+@cross_origin()
 def add_steganography():
     """
     Endpoint pour ajouter une signature stéganographique à une image.
@@ -252,6 +266,7 @@ def add_steganography():
         return jsonify({"error": f"Erreur lors de l'ajout de signature: {str(e)}"}), 500
 
 @image_bp_v2.route('/verify_integrity', methods=['POST'])
+@cross_origin()
 def verify_integrity():
     """
     Endpoint pour vérifier l'intégrité d'une image avec signature.
@@ -318,6 +333,7 @@ def verify_integrity():
         return jsonify({"error": f"Erreur lors de la vérification: {str(e)}"}), 500
 
 @image_bp_v2.route('/images', methods=['GET'])
+@cross_origin()
 def list_images():
     """
     Endpoint pour lister toutes les images analysées.
@@ -352,6 +368,7 @@ def list_images():
         return jsonify({"error": f"Erreur lors du listing: {str(e)}"}), 500
 
 @image_bp_v2.route('/uploads/<filename>')
+@cross_origin()
 def get_uploaded_file(filename):
     """Endpoint pour servir les fichiers uploadés."""
     try:
@@ -361,6 +378,7 @@ def get_uploaded_file(filename):
         return jsonify({"error": "Fichier non trouvé"}), 404
 
 @image_bp_v2.route('/test', methods=['GET'])
+@cross_origin()
 def test_api():
     """Endpoint de test pour vérifier que l'API fonctionne."""
     try:

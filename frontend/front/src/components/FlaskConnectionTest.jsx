@@ -18,6 +18,7 @@ import {
   Psychology,
   Security
 } from '@mui/icons-material';
+import { flaskImageService } from '../services/flaskApi';
 
 const FlaskConnectionTest = () => {
   const [status, setStatus] = useState(null);
@@ -27,16 +28,21 @@ const FlaskConnectionTest = () => {
   const testFlaskConnection = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/images/flask-status');
-      const data = await response.json();
-      setStatus(data);
+      const data = await flaskImageService.testFlaskConnection();
+      setStatus({
+        flask_connected: true,
+        flask_url: 'http://localhost:5000',
+        ...data
+      });
       setLastCheck(new Date());
     } catch (error) {
+      console.error('Erreur test Flask:', error);
       setStatus({
         flask_connected: false,
         error: error.message,
-        message: "Erreur de connexion au backend Spring Boot"
+        message: "Erreur de connexion à l'application Flask sur le port 5000"
       });
+      setLastCheck(new Date());
     } finally {
       setLoading(false);
     }
@@ -91,69 +97,60 @@ const FlaskConnectionTest = () => {
 
         {status?.flask_connected ? (
           <Alert severity="success" sx={{ mb: 2 }}>
-            ✅ Flask API connectée sur {status.flask_url}
+            ✅ Flask API connectée - Stéganographie et IA disponibles
           </Alert>
         ) : (
           <Alert severity="error" sx={{ mb: 2 }}>
             ❌ Flask API non disponible
             <Typography variant="body2" sx={{ mt: 1 }}>
-              {status?.message || "Vérifiez que votre serveur Flask est démarré"}
+              {status?.message || "Vérifiez que votre serveur Flask est démarré sur le port 5000"}
             </Typography>
-            {status?.error && (
-              <Typography variant="caption" sx={{ mt: 1, display: 'block' }}>
-                Erreur: {status.error}
-              </Typography>
-            )}
           </Alert>
         )}
 
-        {status?.flask_connected && status?.services_available && (
+        {status?.flask_connected && status?.services && (
           <>
             <Divider sx={{ my: 2 }} />
             <Typography variant="subtitle2" gutterBottom>
-              Services disponibles:
+              Services Flask disponibles :
             </Typography>
             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-              {status.services_available.ai_detection && (
-                <Chip
-                  icon={<Psychology />}
-                  label="Détection IA"
-                  color="primary"
-                  size="small"
-                />
-              )}
-              {status.services_available.steganography && (
-                <Chip
-                  icon={<Security />}
-                  label="Stéganographie"
-                  color="secondary"
-                  size="small"
-                />
-              )}
-              {status.services_available.image_processing && (
-                <Chip
-                  icon={<Cloud />}
-                  label="Traitement d'images"
-                  color="success"
-                  size="small"
-                />
-              )}
+              <Chip
+                icon={<Psychology />}
+                label="Détection IA"
+                size="small"
+                color={status.services.ai_detection?.error ? 'error' : 'success'}
+              />
+              <Chip
+                icon={<Security />}
+                label="Stéganographie"
+                size="small"
+                color="success"
+              />
+              <Chip
+                icon={<Cloud />}
+                label="Upload Images"
+                size="small"
+                color="success"
+              />
             </Box>
           </>
         )}
 
-        {!status?.flask_connected && (
-          <Box sx={{ mt: 2, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+        {status?.endpoints && (
+          <>
+            <Divider sx={{ my: 2 }} />
             <Typography variant="subtitle2" gutterBottom>
-              🔧 Pour démarrer Flask:
+              Endpoints disponibles :
             </Typography>
-            <Typography variant="body2" component="div">
-              1. Naviguez vers votre dossier Flask<br/>
-              2. Activez votre environnement virtuel<br/>
-              3. Exécutez: <code>python app.py</code><br/>
-              4. Vérifiez que l'application démarre sur http://127.0.0.1:5000
-            </Typography>
-          </Box>
+            <Box sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
+              {status.endpoints.map((endpoint, index) => (
+                <Typography key={index} variant="caption" component="div">
+                  • /flask{endpoint.replace('/api', '')}
+                </Typography>
+              ))}
+            </Box>
+          </>
         )}
       </CardContent>
     </Card>

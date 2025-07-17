@@ -1,8 +1,8 @@
-// Services d'API pour communiquer avec le backend via le proxy Vite
+// Services d'API pour communiquer avec le backend Spring Boot via le proxy Vite
 import { authService } from './authService';
 import { handleApiResponse, apiRequest } from '../utils/apiUtils';
 
-const API_BASE_URL = '/api'; // Utilise le proxy Vite au lieu de http://localhost:8080
+const API_BASE_URL = '/api'; // Utilise le proxy Vite vers Spring Boot (port 8080)
 
 // Utilitaire pour l'authentification avec JWT
 const getAuthHeaders = () => {
@@ -39,7 +39,7 @@ export const userService = {
   }
 };
 
-// Service d'API pour les images avec gestion d'erreur multipart
+// Service d'API pour les images Spring Boot
 export const imageService = {
   async uploadAndAnalyzeImage(file) {
     try {
