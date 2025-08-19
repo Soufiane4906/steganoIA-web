@@ -1,0 +1,457 @@
+@use './styles/variables' as *;
+
+// ═══════════════════════════════════════════════════════════════════
+// 🌟 MAGIC APP - Global Styles
+// ═══════════════════════════════════════════════════════════════════
+
+// Import des polices magiques
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎯 RESET GLOBAL ET BASE
+// ═══════════════════════════════════════════════════════════════════
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: $main-font;
+  background: linear-gradient(135deg, 
+    $background-dark 0%, 
+    color.adjust($background-dark, $lightness: -5%) 25%,
+    $primary-color 50%,
+    color.adjust($background-dark, $lightness: -3%) 75%,
+    $background-dark 100%);
+  background-attachment: fixed;
+  color: $text-color;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+
+  // ✨ Particules flottantes en arrière-plan
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba($secondary-color, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, rgba($accent-color, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 50% 10%, rgba($tertiary-color, 0.1) 1px, transparent 1px),
+      radial-gradient(circle at 10% 90%, rgba($secondary-color, 0.05) 2px, transparent 2px);
+    background-size: 100px 100px, 150px 150px, 200px 200px, 80px 80px;
+    animation: particles-float 20s linear infinite;
+  }
+
+  // 🌌 Effet de galaxie en mouvement
+  &::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: -2;
+    background: 
+      radial-gradient(ellipse at center, rgba($secondary-color, 0.03) 0%, transparent 70%),
+      radial-gradient(ellipse at 20% 30%, rgba($accent-color, 0.02) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba($tertiary-color, 0.02) 0%, transparent 50%);
+    animation: galaxy-rotation 60s linear infinite;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎬 ANIMATIONS GLOBALES
+// ═══════════════════════════════════════════════════════════════════
+
+@keyframes particles-float {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px); 
+    opacity: 0.3;
+  }
+  33% { 
+    transform: translateY(-20px) translateX(10px); 
+    opacity: 0.6;
+  }
+  66% { 
+    transform: translateY(-10px) translateX(-15px); 
+    opacity: 0.4;
+  }
+}
+
+@keyframes galaxy-rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes magic-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba($secondary-color, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba($secondary-color, 0.6),
+                0 0 60px rgba($accent-color, 0.2);
+  }
+}
+
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 📜 SCROLLBAR PERSONNALISÉE
+// ═══════════════════════════════════════════════════════════════════
+
+body {
+  @include custom-scrollbar(12px, rgba($background-dark, 0.8), rgba($secondary-color, 0.6));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎯 ÉLÉMENTS DE BASE STYLÉS
+// ═══════════════════════════════════════════════════════════════════
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $display-font;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: $spacing-md;
+  
+  background: linear-gradient(135deg, $secondary-color, $tertiary-color);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+p {
+  margin-bottom: $spacing-md;
+  line-height: 1.7;
+}
+
+a {
+  color: $secondary-color;
+  text-decoration: none;
+  transition: all $transition-normal;
+  position: relative;
+
+  &:hover {
+    color: $accent-color;
+    transform: translateY(-1px);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, $secondary-color, $accent-color);
+    transition: width $transition-normal;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+code {
+  font-family: $code-font;
+  background: rgba($secondary-color, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  border: 1px solid rgba($secondary-color, 0.2);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎮 CLASSES UTILITAIRES MAGIQUES
+// ═══════════════════════════════════════════════════════════════════
+
+.magic-container {
+  @include card-style;
+  @include glass-effect(0.05);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      $secondary-color, 
+      $accent-color, 
+      $tertiary-color, 
+      $secondary-color);
+    background-size: 300% 300%;
+    z-index: -1;
+    border-radius: inherit;
+    animation: gradient-border 3s ease infinite;
+  }
+
+  @keyframes gradient-border {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+}
+
+.magic-button {
+  @include button-style($secondary-color, 'primary');
+  
+  &:hover {
+    animation: magic-glow 0.5s ease-in-out;
+  }
+}
+
+.magic-text {
+  @include animated-text-gradient;
+  font-family: $display-font;
+  font-weight: 700;
+  font-size: $font-size-xl;
+}
+
+.floating-element {
+  @include floating-animation(4s);
+}
+
+.sparkle-container {
+  @include sparkle-effect;
+}
+
+.neon-border {
+  @include neon-glow($secondary-color, 0.8);
+  border: 1px solid rgba($secondary-color, 0.5);
+  border-radius: $border-radius-md;
+}
+
+.loading-spinner {
+  @include loading-state;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.pulse-effect {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🌟 EFFETS SPÉCIAUX
+// ═══════════════════════════════════════════════════════════════════
+
+.hologram-effect {
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba($secondary-color, 0.1), 
+    rgba($accent-color, 0.1));
+  border: 1px solid rgba($secondary-color, 0.3);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba($secondary-color, 0.4), 
+      transparent);
+    animation: hologram-scan 3s linear infinite;
+  }
+
+  @keyframes hologram-scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+}
+
+.glitch-effect {
+  position: relative;
+  animation: glitch 2s linear infinite;
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &::before {
+    animation: glitch-1 0.5s linear infinite;
+    color: $accent-color;
+    z-index: -1;
+  }
+
+  &::after {
+    animation: glitch-2 0.5s linear infinite;
+    color: $tertiary-color;
+    z-index: -2;
+  }
+
+  @keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+  }
+
+  @keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(-1px, -1px); }
+    60% { transform: translate(1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(1px, -1px); }
+    40% { transform: translate(1px, 1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(-1px, 1px); }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 📱 RESPONSIVE MAGIC
+// ═══════════════════════════════════════════════════════════════════
+
+@include respond-to('tablet') {
+  body {
+    font-size: 1.1rem;
+  }
+  
+  .magic-container {
+    padding: $spacing-xxl;
+  }
+}
+
+@include respond-to('desktop') {
+  .magic-text {
+    font-size: $font-size-xxl;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎪 THÈME SOMBRE AVANCÉ
+// ═══════════════════════════════════════════════════════════════════
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, 
+      color.adjust($background-dark, $lightness: -10%) 0%, 
+      $background-dark 50%,
+      color.adjust($primary-color, $lightness: -20%) 100%);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎯 FOCUS ET ACCESSIBILITÉ
+// ═══════════════════════════════════════════════════════════════════
+
+*:focus {
+  outline: 2px solid $secondary-color;
+  outline-offset: 2px;
+  border-radius: $border-radius-sm;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🌟 ÉTAT DE CHARGEMENT GLOBAL
+// ═══════════════════════════════════════════════════════════════════
+
+.app-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, $background-dark, $primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+
+  .loading-content {
+    text-align: center;
+    
+    .logo {
+      @include animated-text-gradient;
+      font-family: $display-font;
+      font-size: $font-size-xxxl;
+      font-weight: 900;
+      margin-bottom: $spacing-lg;
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 4px;
+      background: rgba($secondary-color, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 0 auto;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, $secondary-color, $accent-color);
+        animation: loading-progress 2s ease-in-out infinite;
+      }
+    }
+
+    @keyframes loading-progress {
+      0% { width: 0; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+  }
+}
