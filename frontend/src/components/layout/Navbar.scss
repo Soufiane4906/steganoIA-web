@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+@use '../../styles/_variables' as *;
 
 // ═══════════════════════════════════════════════════════════════════
 // 🚀 MAGIC NAVBAR - Futuristic Navigation
@@ -19,6 +19,19 @@
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 50px rgba($secondary-color, 0.1);
+  transition: all $transition-normal ease;
+
+  // Adaptation pour le thème clair
+  [data-theme="light"] & {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(248, 250, 252, 0.85)
+    ) !important;
+    border-bottom: 1px solid rgba($secondary-color, 0.4);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 50px rgba($secondary-color, 0.2);
+  }
 
   // ✨ Animation d'entrée
   animation: navbar-slide-down 0.8s ease-out;
@@ -140,7 +153,7 @@
     gap: $spacing-sm;
 
     .nav-button {
-      color: $text-color;
+      color: $text-color-primary;
       font-family: $code-font;
       padding: $spacing-md $spacing-lg;
       border-radius: 12px;
@@ -228,19 +241,47 @@
     align-items: center;
     gap: $spacing-md;
 
+    .theme-toggle-button {
+      color: $secondary-color;
+      transition: all $transition-magic;
+      border-radius: 50%;
+      padding: $spacing-sm;
+
+      &:hover {
+        background: rgba($secondary-color, 0.1);
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba($secondary-color, 0.3);
+      }
+
+      [data-theme="light"] & {
+        color: $accent-color;
+
+        &:hover {
+          background: rgba($accent-color, 0.1);
+          box-shadow: 0 0 20px rgba($accent-color, 0.3);
+        }
+      }
+    }
+
     .user-chip {
-      color: $text-color;
+      color: $text-color-primary;
       border-color: rgba($secondary-color, 0.5);
       font-family: $code-font;
-      background: rgba($background-darker, 0.6);
-      backdrop-filter: blur(15px);
+      background: rgba($primary-color, 0.6);
       -webkit-backdrop-filter: blur(15px);
+      backdrop-filter: blur(15px);
       transition: all $transition-magic;
       border-radius: 25px;
       padding: $spacing-sm $spacing-md;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
+
+      [data-theme="light"] & {
+        color: $text-color-primary;
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba($secondary-color, 0.6);
+      }
 
       .MuiChip-icon {
         color: $secondary-color;
@@ -322,7 +363,7 @@
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     border: 1px solid rgba($secondary-color, 0.3);
-    color: $text-color;
+    color: $text-color-primary;
     box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.4),
       0 0 50px rgba($secondary-color, 0.2);
@@ -334,7 +375,7 @@
     animation: menu-slide-in 0.3s ease-out;
 
     .MuiMenuItem-root {
-      font-family: $main-font;
+      font-family: $body-font;
       padding: $spacing-md $spacing-lg;
       transition: all $transition-magic;
       border-radius: 12px;
@@ -427,7 +468,7 @@
     // 🎨 Section utilisateur stylée
     .MuiBox-root {
       background: linear-gradient(135deg,
-        rgba($background-darker, 0.5),
+        rgba($primary-color, 0.5),
         rgba($primary-color, 0.3)
       );
       border-radius: 12px;

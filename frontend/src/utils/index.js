@@ -1,4 +1,16 @@
 import { FILE_CONSTRAINTS, CONFIDENCE_THRESHOLDS } from '../constants';
+import {
+  Security,
+  Visibility,
+  Image as ImageIcon,
+  DataUsage,
+  Assessment,
+  Memory,
+  Palette,
+  AspectRatio,
+  Storage,
+  AccessTime
+} from '@mui/icons-material';
 
 // Utilitaires pour la validation des fichiers
 export const fileUtils = {
@@ -61,6 +73,105 @@ export const analysisUtils = {
 
   formatConfidence(confidence) {
     return `${(confidence * 100).toFixed(1)}%`;
+  },
+
+  getAnalysisItems(stegano_properties = {}, metadata = {}, visual_properties = {}) {
+    const items = [];
+
+    // Propriétés stéganographiques
+    if (stegano_properties.steganography_confidence !== undefined) {
+      items.push({
+        icon: <Security />,
+        label: 'Probabilité de stéganographie',
+        value: this.formatConfidence(stegano_properties.steganography_confidence),
+        unit: null
+      });
+    }
+
+    if (stegano_properties.hidden_data_size !== undefined) {
+      items.push({
+        icon: <DataUsage />,
+        label: 'Taille estimée des données cachées',
+        value: stegano_properties.hidden_data_size,
+        unit: 'bytes'
+      });
+    }
+
+    if (stegano_properties.embedding_method) {
+      items.push({
+        icon: <Memory />,
+        label: 'Méthode d\'embedding détectée',
+        value: stegano_properties.embedding_method,
+        unit: null
+      });
+    }
+
+    // Métadonnées
+    if (metadata.file_size !== undefined) {
+      items.push({
+        icon: <Storage />,
+        label: 'Taille du fichier',
+        value: metadata.file_size,
+        unit: 'bytes'
+      });
+    }
+
+    if (metadata.format) {
+      items.push({
+        icon: <ImageIcon />,
+        label: 'Format de l\'image',
+        value: metadata.format,
+        unit: null
+      });
+    }
+
+    if (metadata.creation_date) {
+      items.push({
+        icon: <AccessTime />,
+        label: 'Date de création',
+        value: metadata.creation_date,
+        unit: 'date'
+      });
+    }
+
+    // Propriétés visuelles
+    if (visual_properties.width && visual_properties.height) {
+      items.push({
+        icon: <AspectRatio />,
+        label: 'Dimensions',
+        value: `${visual_properties.width} × ${visual_properties.height}`,
+        unit: 'pixels'
+      });
+    }
+
+    if (visual_properties.color_depth !== undefined) {
+      items.push({
+        icon: <Palette />,
+        label: 'Profondeur de couleur',
+        value: visual_properties.color_depth,
+        unit: 'bits'
+      });
+    }
+
+    if (visual_properties.compression_ratio !== undefined) {
+      items.push({
+        icon: <Assessment />,
+        label: 'Ratio de compression',
+        value: visual_properties.compression_ratio.toFixed(2),
+        unit: null
+      });
+    }
+
+    if (visual_properties.noise_level !== undefined) {
+      items.push({
+        icon: <Visibility />,
+        label: 'Niveau de bruit',
+        value: this.formatConfidence(visual_properties.noise_level),
+        unit: null
+      });
+    }
+
+    return items;
   }
 };
 

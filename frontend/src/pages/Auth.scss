@@ -1,0 +1,382 @@
+@use '../styles/_variables' as *;
+
+// ═══════════════════════════════════════════════════════════════════
+// 🌟 MAGIC AUTH PAGE - Login & Register
+// ═══════════════════════════════════════════════════════════════════
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg,
+    $dynamic-bg-primary 0%,
+    $dynamic-bg-secondary 100%);
+  position: relative;
+  overflow: hidden;
+
+  // ✨ Particules magiques en arrière-plan
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba($secondary-color, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba($accent-color, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba($tertiary-color, 0.1) 0%, transparent 50%);
+    animation: floating-bg 15s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .auth-container {
+    @include card-style($spacing-xxl);
+    @include glass-effect(0.1, 25px);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+    z-index: 10;
+    animation: auth-slide-in 0.8s ease-out;
+
+    // Bordure magique animée
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg,
+        $secondary-color,
+        $accent-color,
+        $tertiary-color,
+        $secondary-color);
+      background-size: 300% 300%;
+      border-radius: inherit;
+      z-index: -1;
+      animation: magic-border-flow 3s ease infinite;
+      opacity: 0.8;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: $spacing-xl;
+
+      .auth-logo {
+        font-size: 3rem;
+        color: $secondary-color;
+        margin-bottom: $spacing-md;
+        animation: logo-glow 2s ease-in-out infinite alternate;
+      }
+
+      .auth-title {
+        font-family: $display-font;
+        font-size: $font-size-xxl;
+        font-weight: 900;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: $spacing-sm;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .auth-subtitle {
+        color: $dynamic-text-secondary;
+        font-family: $code-font;
+        font-size: $font-size-sm;
+        opacity: 0.8;
+      }
+    }
+
+    .auth-form {
+      .form-group {
+        margin-bottom: $spacing-lg;
+        position: relative;
+
+        .form-label {
+          display: block;
+          color: $dynamic-text-primary;
+          font-family: $code-font;
+          font-weight: 600;
+          margin-bottom: $spacing-sm;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: $font-size-sm;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: $spacing-md $spacing-lg;
+          background: rgba($primary-color, 0.3);
+          border: 2px solid transparent;
+          border-radius: $border-radius-md;
+          color: $dynamic-text-primary;
+          font-family: $body-font;
+          font-size: $font-size-base;
+          transition: all $transition-normal;
+          position: relative;
+
+          [data-theme="light"] & {
+            background: rgba(255, 255, 255, 0.8);
+            color: $dynamic-text-primary;
+          }
+
+          &:focus {
+            outline: none;
+            border-color: $secondary-color;
+            background: rgba($primary-color, 0.5);
+            box-shadow:
+              0 0 0 3px rgba($secondary-color, 0.2),
+              0 0 20px rgba($secondary-color, 0.3);
+            transform: translateY(-2px);
+
+            [data-theme="light"] & {
+              background: rgba(255, 255, 255, 0.95);
+              box-shadow:
+                0 0 0 3px rgba($secondary-color, 0.3),
+                0 0 20px rgba($secondary-color, 0.2);
+            }
+          }
+
+          &::placeholder {
+            color: $dynamic-text-muted;
+            opacity: 0.7;
+          }
+
+          // Effet de saisie magique
+          &:not(:placeholder-shown) {
+            border-color: rgba($secondary-color, 0.5);
+
+            & + .input-glow {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+        }
+
+        .input-glow {
+          position: absolute;
+          inset: 0;
+          border-radius: inherit;
+          background: linear-gradient(45deg,
+            transparent,
+            rgba($secondary-color, 0.1),
+            transparent);
+          opacity: 0;
+          transform: scale(0.8);
+          transition: all $transition-normal;
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .form-error {
+          color: $error-color;
+          font-size: $font-size-xs;
+          margin-top: $spacing-xs;
+          font-family: $code-font;
+          display: flex;
+          align-items: center;
+          gap: $spacing-xs;
+          animation: shake 0.5s ease;
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-md;
+        margin-top: $spacing-xl;
+
+        .auth-submit-btn {
+          @include button-style($secondary-color, 'primary');
+          width: 100%;
+          padding: $spacing-lg;
+          font-size: $font-size-lg;
+          font-weight: 700;
+          position: relative;
+          overflow: hidden;
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+
+            &::before {
+              display: none;
+            }
+          }
+
+          .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: $spacing-sm;
+          }
+        }
+
+        .auth-switch {
+          text-align: center;
+          color: $dynamic-text-secondary;
+          font-family: $code-font;
+          font-size: $font-size-sm;
+
+          .auth-switch-link {
+            color: $secondary-color;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all $transition-fast;
+            position: relative;
+
+            &:hover {
+              color: $accent-color;
+              transform: translateY(-1px);
+            }
+
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -2px;
+              left: 0;
+              width: 0;
+              height: 2px;
+              background: linear-gradient(90deg, $secondary-color, $accent-color);
+              transition: width $transition-normal;
+            }
+
+            &:hover::after {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    .social-login {
+      margin-top: $spacing-xl;
+      padding-top: $spacing-lg;
+      border-top: 1px solid rgba($secondary-color, 0.2);
+      text-align: center;
+
+      .social-title {
+        color: $dynamic-text-secondary;
+        font-size: $font-size-sm;
+        margin-bottom: $spacing-md;
+        font-family: $code-font;
+      }
+
+      .social-buttons {
+        display: flex;
+        gap: $spacing-md;
+        justify-content: center;
+
+        .social-btn {
+          @include button-style($accent-color, 'ghost');
+          padding: $spacing-md;
+          border-radius: 50%;
+          font-size: $font-size-lg;
+
+          &:hover {
+            transform: translateY(-3px) scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎪 ANIMATIONS SPÉCIALES
+// ═══════════════════════════════════════════════════════════════════
+
+@keyframes auth-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes floating-bg {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(1deg); }
+  66% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+@keyframes magic-border-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes logo-glow {
+  from {
+    filter: drop-shadow(0 0 10px rgba($secondary-color, 0.5));
+  }
+  to {
+    filter: drop-shadow(0 0 25px rgba($secondary-color, 0.8));
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 📱 RESPONSIVE DESIGN
+// ═══════════════════════════════════════════════════════════════════
+
+@media (max-width: 768px) {
+  .auth-page {
+    padding: $spacing-md;
+
+    .auth-container {
+      padding: $spacing-xl;
+      margin: $spacing-md;
+
+      .auth-header .auth-title {
+        font-size: $font-size-xl;
+      }
+
+      .social-buttons {
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page .auth-container {
+    padding: $spacing-lg;
+
+    .auth-header {
+      .auth-logo {
+        font-size: 2.5rem;
+      }
+
+      .auth-title {
+        font-size: $font-size-lg;
+        letter-spacing: 1px;
+      }
+    }
+
+    .form-group .form-input {
+      padding: $spacing-sm $spacing-md;
+    }
+
+    .social-buttons .social-btn {
+      padding: $spacing-sm;
+      font-size: $font-size-base;
+    }
+  }
+}

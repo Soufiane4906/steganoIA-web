@@ -1,135 +1,288 @@
 @use 'sass:color';
-@use '../styles/variables' as *;
+@use '../styles/_variables' as *;
+
+// ═══════════════════════════════════════════════════════════════════
+// 👤 MAGIC PROFILE PAGE - User Interface Cyberpunk
+// ═══════════════════════════════════════════════════════════════════
 
 .profile-page-container {
-  padding: 2rem;
-  background-color: $background-color;
-  color: $text-color;
+  padding: $spacing-xl;
+  background: $dynamic-bg-primary;
+  color: $dynamic-text-primary;
+  min-height: 100vh;
+  transition: all $transition-normal ease;
 
   .breadcrumbs {
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-    color: $text-color-secondary;
+    @include glass-effect(0.05);
+    margin-bottom: $spacing-xl;
+    padding: $spacing-md $spacing-lg;
+    border-radius: $border-radius-lg;
+    font-size: $font-size-sm;
+    color: $dynamic-text-secondary;
+    font-family: $code-font;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: all $transition-normal ease;
+
     a {
       color: $secondary-color;
       text-decoration: none;
+      font-weight: 600;
+      transition: all $transition-fast;
+      position: relative;
+
       &:hover {
-        text-decoration: underline;
+        color: $accent-color;
+        transform: translateY(-1px);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, $secondary-color, $accent-color);
+        transition: width $transition-normal;
+      }
+
+      &:hover::after {
+        width: 100%;
       }
     }
+
     svg {
-      vertical-align: middle;
-      margin: 0 0.5rem;
+      color: $dynamic-text-muted;
+      font-size: 1.2rem;
+    }
+
+    span {
+      color: $dynamic-text-primary;
+      font-weight: 700;
     }
   }
 
   .profile-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: $spacing-xl;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   .profile-main-card {
-    @include card-style;
-    @include glass-effect;
+    @include card-style($spacing-xxl);
+    @include glass-effect(0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 2rem;
+    position: relative;
+    transition: all $transition-magic;
+
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      @include magic-glow($secondary-color, 1.5);
+    }
 
     .profile-avatar {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      background: linear-gradient(145deg, $secondary-color, color.adjust($secondary-color, $lightness: -15%));
+      background: linear-gradient(145deg, $secondary-color, rgba(100, 255, 218, 0.7));
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 3rem;
-      font-weight: bold;
+      font-size: 3.5rem;
+      font-weight: 900;
       color: $primary-color;
-      margin-bottom: 1rem;
-      border: 3px solid $secondary-color;
+      margin-bottom: $spacing-lg;
+      border: 4px solid $secondary-color;
+      position: relative;
+      transition: all $transition-magic;
+
+      // Effet de lueur pulsante
+      &::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, $secondary-color, $accent-color);
+        z-index: -1;
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      [data-theme="light"] & {
+        background: linear-gradient(145deg, $secondary-color, rgba(100, 255, 218, 0.9));
+        color: $background-dark;
+        box-shadow: 0 8px 32px rgba($secondary-color, 0.3);
+      }
     }
 
     .profile-username {
-      font-size: 1.8rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      font-size: $font-size-xxl;
+      font-weight: 900;
+      font-family: $display-font;
+      margin-bottom: $spacing-md;
+      background: linear-gradient(135deg, $secondary-color, $accent-color);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .profile-role {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.3rem 0.8rem;
-      border-radius: 15px;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-      color: $primary-color;
+      gap: $spacing-sm;
+      padding: $spacing-sm $spacing-lg;
+      border-radius: 25px;
+      font-size: $font-size-sm;
+      font-family: $code-font;
+      font-weight: 700;
+      margin-bottom: $spacing-lg;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      transition: all $transition-magic;
+
       &.admin {
-        background-color: $secondary-color;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        color: $background-dark;
+        box-shadow: 0 0 20px rgba($secondary-color, 0.4);
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba($secondary-color, 0.6);
+        }
       }
+
       &.user {
-        background-color: color.adjust($secondary-color, $lightness: 10%);
+        background: linear-gradient(135deg, $accent-color, $tertiary-color);
+        color: $background-dark;
+        box-shadow: 0 0 20px rgba($accent-color, 0.4);
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba($accent-color, 0.6);
+        }
       }
     }
 
     .profile-description {
-      font-size: 0.9rem;
-      color: $text-color-secondary;
+      font-size: $font-size-base;
+      color: $dynamic-text-secondary;
+      font-family: $body-font;
+      line-height: 1.6;
+      opacity: 0.9;
     }
   }
 
   .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: $spacing-lg;
+    grid-column: 1 / -1;
 
     .stat-item {
-      @include card-style;
-      padding: 1.5rem;
+      @include card-style($spacing-lg);
+      @include glass-effect(0.05);
       text-align: center;
+      position: relative;
+      transition: all $transition-magic;
+      overflow: hidden;
+
+      &:hover {
+        transform: translateY(-8px) scale(1.05);
+        @include magic-glow($secondary-color, 1.2);
+
+        .stat-icon {
+          transform: scale(1.2) rotate(10deg);
+        }
+
+        .stat-value {
+          transform: scale(1.1);
+        }
+      }
 
       .stat-icon {
-        font-size: 2.5rem;
+        font-size: 3rem;
         color: $secondary-color;
-        margin-bottom: 0.5rem;
+        margin-bottom: $spacing-md;
+        transition: all $transition-magic;
+        filter: drop-shadow(0 0 10px rgba($secondary-color, 0.5));
       }
 
       .stat-value {
-        font-size: 2rem;
-        font-weight: bold;
+        font-size: $font-size-xxl;
+        font-weight: 900;
+        font-family: $display-font;
+        color: $dynamic-text-primary;
+        margin-bottom: $spacing-sm;
+        transition: all $transition-magic;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .stat-label {
-        font-size: 0.9rem;
-        color: $text-color-secondary;
+        font-size: $font-size-sm;
+        color: $dynamic-text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        font-family: $code-font;
       }
     }
   }
 
   .info-card {
-    @include card-style;
+    @include card-style($spacing-xl);
+    @include glass-effect(0.08);
     grid-column: 1 / -1;
+    transition: all $transition-magic;
+
+    &:hover {
+      transform: translateY(-5px);
+      @include magic-glow($secondary-color, 1);
+    }
 
     .info-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid $border-color;
+      padding-bottom: $spacing-lg;
+      margin-bottom: $spacing-lg;
+      border-bottom: 2px solid rgba($secondary-color, 0.3);
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg, $secondary-color, $accent-color);
+        border-radius: 1px;
+      }
 
       h3 {
-        font-size: 1.2rem;
+        font-size: $font-size-xl;
+        font-family: $display-font;
+        font-weight: 700;
+        color: $dynamic-text-primary;
         margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
     }
 
     .info-content {
-      padding: 1.5rem;
-
       .info-list {
         list-style: none;
         padding: 0;
@@ -138,26 +291,58 @@
         li {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          padding: 0.8rem 0;
-          border-bottom: 1px solid $border-color-light;
+          gap: $spacing-lg;
+          padding: $spacing-lg;
+          margin-bottom: $spacing-md;
+          background: rgba($secondary-color, 0.05);
+          border-radius: $border-radius-md;
+          border: 1px solid rgba($secondary-color, 0.1);
+          transition: all $transition-normal;
+          position: relative;
+
+          [data-theme="light"] & {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba($secondary-color, 0.2);
+          }
+
+          &:hover {
+            background: rgba($secondary-color, 0.1);
+            border-color: rgba($secondary-color, 0.3);
+            transform: translateX(5px);
+
+            [data-theme="light"] & {
+              background: rgba(255, 255, 255, 0.8);
+            }
+          }
 
           &:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
           }
 
           .info-icon {
             color: $secondary-color;
+            font-size: 1.5rem;
+            flex-shrink: 0;
           }
 
           .info-text {
+            flex-grow: 1;
+
             .primary {
               display: block;
-              font-weight: 500;
+              font-weight: 700;
+              font-family: $code-font;
+              color: $dynamic-text-primary;
+              font-size: $font-size-base;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-bottom: $spacing-xs;
             }
+
             .secondary {
-              font-size: 0.9rem;
-              color: $text-color-secondary;
+              font-size: $font-size-sm;
+              color: $dynamic-text-secondary;
+              font-family: $body-font;
             }
           }
         }
@@ -169,7 +354,128 @@
     grid-column: 1 / -1;
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: $spacing-lg;
     flex-wrap: wrap;
+    margin-top: $spacing-xl;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎪 ANIMATIONS SPÉCIALES
+// ═══════════════════════════════════════════════════════════════════
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// 📱 RESPONSIVE DESIGN
+// ═══════════════════════════════════════════════════════════════════
+
+@media (max-width: 1200px) {
+  .profile-page-container {
+    .profile-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-page-container {
+    padding: $spacing-md;
+
+    .breadcrumbs {
+      flex-wrap: wrap;
+      gap: $spacing-xs;
+    }
+
+    .profile-grid {
+      grid-template-columns: 1fr;
+      gap: $spacing-md;
+    }
+
+    .profile-main-card {
+      padding: $spacing-lg;
+
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 3rem;
+      }
+
+      .profile-username {
+        font-size: $font-size-xl;
+        letter-spacing: 1px;
+      }
+    }
+
+    .stats-container {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: $spacing-md;
+
+      .stat-item {
+        padding: $spacing-md;
+
+        .stat-icon {
+          font-size: 2.5rem;
+        }
+
+        .stat-value {
+          font-size: $font-size-xl;
+        }
+      }
+    }
+
+    .info-card {
+      padding: $spacing-lg;
+
+      .info-content .info-list li {
+        flex-direction: column;
+        text-align: center;
+        gap: $spacing-sm;
+      }
+    }
+
+    .actions-container {
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-md;
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-page-container {
+    .profile-main-card {
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+      }
+
+      .profile-username {
+        font-size: $font-size-lg;
+      }
+    }
+
+    .stats-container {
+      grid-template-columns: 1fr;
+
+      .stat-item .stat-icon {
+        font-size: 2rem;
+      }
+    }
   }
 }

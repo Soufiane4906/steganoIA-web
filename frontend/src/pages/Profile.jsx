@@ -129,28 +129,28 @@ const Profile = () => {
 
         <div className="actions-container">
           <motion.button
-            className="button-style"
+            className="btn btn-cyber btn-lg"
             onClick={() => navigate('/upload')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <CloudUpload /> Analyser une image
+            <CloudUpload className="icon" /> Analyser une image
           </motion.button>
           <motion.button
-            className="button-style secondary"
+            className="btn btn-holo btn-lg"
             onClick={() => navigate('/gallery')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <PhotoLibrary /> Voir ma galerie
+            <PhotoLibrary className="icon" /> Voir ma galerie
           </motion.button>
           <motion.button
-            className="button-style danger"
+            className="btn btn-matrix btn-lg"
             onClick={logout}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Logout /> Se déconnecter
+            <Logout className="icon" /> Se déconnecter
           </motion.button>
         </div>
       </div>

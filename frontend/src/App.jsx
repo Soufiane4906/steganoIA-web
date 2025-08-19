@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider, useAuth } from './hooks/useAuth';
+import { ThemeProvider as CustomThemeProvider } from './hooks/useTheme';
 import Navbar from './components/layout/Navbar';
 import Dashboard from './pages/Dashboard';
 import UploadImages from './pages/UploadImages';
@@ -13,19 +14,27 @@ import './App.scss';
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: '#2196f3',
+      main: '#64ffda',
     },
     secondary: {
-      main: '#f50057',
+      main: '#ff6b6b',
+    },
+    background: {
+      default: '#0a192f',
+      paper: '#112240',
+    },
+    text: {
+      primary: '#e6f1ff',
+      secondary: '#8892b0',
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif',
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
 });
 
@@ -149,14 +158,16 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AuthProvider>
-        <Router>
-          <AppRoutes />
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <CustomThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AuthProvider>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+    </CustomThemeProvider>
   );
 }
 

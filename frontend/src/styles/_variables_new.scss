@@ -64,7 +64,6 @@ $tertiary-color: #8000ff;
 $background-dark: #0a0a0a;
 $background-light: #1a1a1a;
 $surface-dark: #2a2a2a;
-$card-background-color: #1e1e2e;
 
 $text-color-primary: #ffffff;
 $text-color-secondary: #b0b0b0;
@@ -387,30 +386,6 @@ $breakpoint-large: 1200px;
   }
 }
 
-// Mixin flexible pour responsive design
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == 'mobile' {
-    @media (max-width: #{$breakpoint-mobile - 1px}) {
-      @content;
-    }
-  }
-  @else if $breakpoint == 'tablet' {
-    @media (min-width: $breakpoint-mobile) and (max-width: #{$breakpoint-tablet - 1px}) {
-      @content;
-    }
-  }
-  @else if $breakpoint == 'desktop' {
-    @media (min-width: $breakpoint-tablet) {
-      @content;
-    }
-  }
-  @else if $breakpoint == 'large' {
-    @media (min-width: $breakpoint-large) {
-      @content;
-    }
-  }
-}
-
 // Z-index hierarchy
 $z-index-base: 1;
 $z-index-dropdown: 100;
@@ -483,15 +458,14 @@ $z-index-toast: 800;
     transform: translateX(-100%);
     animation: loading-shimmer 1.5s ease-in-out infinite;
   }
-}
 
-// Keyframes pour l'effet de chargement
-@keyframes loading-shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
+  @keyframes loading-shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 }
 
@@ -502,244 +476,4 @@ $z-index-toast: 800;
     color $transition-normal ease,
     border-color $transition-normal ease,
     box-shadow $transition-normal ease;
-}
-
-// Animation pour texte gradient
-@mixin animated-text-gradient {
-  background: linear-gradient(
-    90deg,
-    $dynamic-text-primary,
-    $dynamic-accent-primary,
-    $dynamic-accent-secondary,
-    $dynamic-text-primary
-  );
-  background-size: 300% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-text 3s ease-in-out infinite;
-}
-
-// Animation pour elements flottants
-@mixin floating-animation($duration: 3s) {
-  animation: floating $duration ease-in-out infinite;
-}
-
-// Keyframes pour les animations
-@keyframes gradient-text {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes floating {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-// Effet sparkle/étincelles
-@mixin sparkle-effect {
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-                radial-gradient(circle at 80% 20%, rgba($primary-color, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba($secondary-color, 0.3) 0%, transparent 60%);
-    animation: sparkle-move 4s ease-in-out infinite;
-    pointer-events: none;
-  }
-}
-
-// Effet neon glow
-@mixin neon-glow($color: $primary-color, $intensity: 1) {
-  box-shadow:
-    0 0 #{5px * $intensity} rgba($color, 0.6),
-    0 0 #{10px * $intensity} rgba($color, 0.4),
-    0 0 #{15px * $intensity} rgba($color, 0.2),
-    inset 0 0 #{5px * $intensity} rgba($color, 0.1);
-
-  &:hover {
-    box-shadow:
-      0 0 #{8px * $intensity} rgba($color, 0.8),
-      0 0 #{16px * $intensity} rgba($color, 0.6),
-      0 0 #{24px * $intensity} rgba($color, 0.4),
-      inset 0 0 #{8px * $intensity} rgba($color, 0.2);
-  }
-}
-
-// Keyframe pour l'effet sparkle
-@keyframes sparkle-move {
-  0%, 100% {
-    transform: translateX(0%) rotate(0deg);
-    opacity: 0.8;
-  }
-  25% {
-    transform: translateX(10%) rotate(90deg);
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(-5%) rotate(180deg);
-    opacity: 0.6;
-  }
-  75% {
-    transform: translateX(8%) rotate(270deg);
-    opacity: 1;
-  }
-}
-
-// Mixin pour boutons cyber
-@mixin cyber-button($color: $primary-color) {
-  background: linear-gradient(45deg,
-    rgba($color, 0.2) 0%,
-    rgba($color, 0.4) 50%,
-    rgba($color, 0.2) 100%);
-  border: 1px solid rgba($color, 0.6);
-  color: rgba($color, 0.9);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-      transparent,
-      rgba($color, 0.4),
-      transparent);
-    transition: left 0.5s ease;
-  }
-
-  &:hover::before {
-    left: 100%;
-  }
-
-  &:hover {
-    @include neon-glow($color, 1.2);
-    transform: translateY(-2px);
-  }
-}
-
-// Mixin pour boutons holographiques
-@mixin holo-button($color: $accent-color) {
-  background: linear-gradient(135deg,
-    transparent 0%,
-    rgba($color, 0.1) 25%,
-    rgba($color, 0.2) 50%,
-    rgba($color, 0.1) 75%,
-    transparent 100%);
-  border: 1px solid rgba($color, 0.3);
-  color: $color;
-  backdrop-filter: blur(10px);
-
-  &:hover {
-    background: linear-gradient(135deg,
-      rgba($color, 0.1) 0%,
-      rgba($color, 0.2) 25%,
-      rgba($color, 0.3) 50%,
-      rgba($color, 0.2) 75%,
-      rgba($color, 0.1) 100%);
-    border-color: rgba($color, 0.6);
-    transform: scale(1.05);
-  }
-}
-
-// Mixin pour boutons matrix avec effet de pluie numérique
-@mixin matrix-button($color: $tertiary-color) {
-  background: linear-gradient(135deg,
-    rgba($color, 0.15) 0%,
-    rgba($color, 0.25) 50%,
-    rgba($color, 0.15) 100%);
-  border: 1px solid rgba($color, 0.4);
-  color: $color;
-  position: relative;
-  overflow: hidden;
-  font-family: $code-font;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-
-  // Effet de pluie de code matrix
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg,
-      transparent 0%,
-      rgba($color, 0.1) 25%,
-      rgba($color, 0.2) 50%,
-      rgba($color, 0.1) 75%,
-      transparent 100%);
-    background-size: 4px 20px;
-    animation: matrix-rain 2s linear infinite;
-    pointer-events: none;
-  }
-
-  // Effet de scan line
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, $color, transparent);
-    animation: matrix-scan 3s ease-in-out infinite;
-  }
-
-  &:hover {
-    background: linear-gradient(135deg,
-      rgba($color, 0.25) 0%,
-      rgba($color, 0.4) 50%,
-      rgba($color, 0.25) 100%);
-    border-color: rgba($color, 0.7);
-    transform: translateY(-1px);
-    @include neon-glow($color, 1);
-
-    &::before {
-      animation-duration: 1s;
-    }
-  }
-}
-
-// Keyframes pour l'effet matrix
-@keyframes matrix-rain {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 20px;
-  }
-}
-
-@keyframes matrix-scan {
-  0% {
-    left: -100%;
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    left: 100%;
-    opacity: 0;
-  }
 }

@@ -110,16 +110,16 @@ const UploadImages = () => {
                             <label>Type d'opération</label>
                             <div className="type-selector">
                                 <button
-                                    className={uploadType === UPLOAD_TYPES.ANALYZE ? 'active' : ''}
+                                    className={`btn btn-neon ${uploadType === UPLOAD_TYPES.ANALYZE ? 'active' : ''}`}
                                     onClick={() => setUploadType(UPLOAD_TYPES.ANALYZE)}
                                 >
-                                    <FindInPage /> Analyser
+                                    <FindInPage className="icon" /> Analyser
                                 </button>
                                 <button
-                                    className={uploadType === UPLOAD_TYPES.SIGN ? 'active' : ''}
+                                    className={`btn btn-neon ${uploadType === UPLOAD_TYPES.SIGN ? 'active' : ''}`}
                                     onClick={() => setUploadType(UPLOAD_TYPES.SIGN)}
                                 >
-                                    <VpnKey /> Signer
+                                    <VpnKey className="icon" /> Signer
                                 </button>
                             </div>
                         </div>
@@ -163,8 +163,15 @@ const UploadImages = () => {
                             )}
                         </div>
 
-                        <button onClick={handleUpload} disabled={loading || !selectedFile} className="upload-button button-style">
-                            {loading ? 'Analyse en cours...' : 'Lancer le traitement'}
+                        <button onClick={handleUpload} disabled={loading || !selectedFile} className="btn btn-cyber btn-xl btn-block">
+                            {loading ? (
+                                <>
+                                    <div className="loading-spinner"></div>
+                                    Analyse en cours...
+                                </>
+                            ) : (
+                                'Lancer le traitement'
+                            )}
                         </button>
                     </div>
 

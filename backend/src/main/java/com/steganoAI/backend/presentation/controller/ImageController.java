@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001", "http://localhost:3004", "http://localhost:3003"})
 @Slf4j
 public class ImageController {
     private final ImageApplicationService imageApplicationService;

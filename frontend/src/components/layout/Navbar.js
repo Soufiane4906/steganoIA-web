@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Avatar, Box, Chip, Divider, ListItemIcon, ListItemText
+  AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Avatar, Box, Chip, Divider, ListItemIcon, ListItemText, Switch, FormControlLabel
 } from '@mui/material';
 import {
-  Menu as MenuIcon, AccountCircle, Logout, Dashboard, CloudUpload, PhotoLibrary, Settings, AdminPanelSettings, Security, VpnKey
+  Menu as MenuIcon, AccountCircle, Logout, Dashboard, CloudUpload, PhotoLibrary, Settings, AdminPanelSettings, Security, VpnKey, LightMode, DarkMode, Brightness6
 } from '@mui/icons-material';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 import './Navbar.scss';
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, isAuthenticated, logout, isAdmin } = useAuth();
+  const { theme, toggleTheme, isDark } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -88,6 +90,20 @@ const Navbar = () => {
           </Box>
 
           <Box className="user-menu-container">
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <IconButton
+                onClick={toggleTheme}
+                className="theme-toggle-button"
+                title={`Basculer vers le thème ${isDark ? 'clair' : 'sombre'}`}
+              >
+                <motion.div
+                  animate={{ rotate: isDark ? 0 : 180 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {isDark ? <LightMode /> : <DarkMode />}
+                </motion.div>
+              </IconButton>
+            </motion.div>
             <motion.div whileHover={{ scale: 1.05 }}>
               <Chip
                 icon={isAdmin() ? <AdminPanelSettings /> : <Security />}
