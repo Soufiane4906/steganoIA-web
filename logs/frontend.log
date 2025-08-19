@@ -1,0 +1,133 @@
+
+> stegano-frontend@0.1.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.19[39m  [2mready in [0m[1m645[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+36 │       background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+   │                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Dashboard.scss 36:61  root stylesheet
+
+DEPRECATION WARNING [color-functions]: darken() is deprecated. Suggestions:
+
+color.scale($color, $lightness: -21.5492957746%)
+color.adjust($color, $lightness: -15%)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+36 │       background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+   │                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Dashboard.scss 36:61  root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+53 │         background-color: lighten($secondary-color, 10%);
+   │                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Dashboard.scss 53:27  root stylesheet
+
+DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 32.9032258065%)
+color.adjust($color, $lightness: 10%)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+53 │         background-color: lighten($secondary-color, 10%);
+   │                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Dashboard.scss 53:27  root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+27 │       background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+   │                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Auth.scss 27:61  root stylesheet
+
+DEPRECATION WARNING [color-functions]: darken() is deprecated. Suggestions:
+
+color.scale($color, $lightness: -21.5492957746%)
+color.adjust($color, $lightness: -15%)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ╷
+27 │       background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+   │                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ╵
+    src\pages\Auth.scss 27:61  root stylesheet
+
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+    ╷
+121 │     background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+    │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    src\pages\Dashboard.scss 121:59  root stylesheet
+
+DEPRECATION WARNING [color-functions]: darken() is deprecated. Suggestions:
+
+color.scale($color, $lightness: -21.5492957746%)
+color.adjust($color, $lightness: -15%)
+
+More info: https://sass-lang.com/d/color-functions
+
+    ╷
+121 │     background: linear-gradient(145deg, $secondary-color, darken($secondary-color, 15%));
+    │                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ╵
+    src\pages\Dashboard.scss 121:59  root stylesheet
+

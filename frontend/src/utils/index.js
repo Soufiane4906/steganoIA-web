@@ -96,7 +96,38 @@ export const dateUtils = {
     if (diffHours < 24) return `Il y a ${diffHours}h`;
     if (diffDays < 7) return `Il y a ${diffDays} jour${diffDays > 1 ? 's' : ''}`;
     return this.formatDate(dateString);
-  }
+  },
+
+  formatRelativeTime(isoString) {
+    if (!isoString) return 'Date inconnue';
+
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) {
+      return 'Date invalide';
+    }
+
+    const now = new Date();
+    const seconds = Math.round((now - date) / 1000);
+    const minutes = Math.round(seconds / 60);
+    const hours = Math.round(minutes / 60);
+    const days = Math.round(hours / 24);
+    const months = Math.round(days / 30);
+    const years = Math.round(days / 365);
+
+    if (seconds < 60) {
+      return "à l'instant";
+    } else if (minutes < 60) {
+      return `il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
+    } else if (hours < 24) {
+      return `il y a ${hours} heure${hours > 1 ? 's' : ''}`;
+    } else if (days < 30) {
+      return `il y a ${days} jour${days > 1 ? 's' : ''}`;
+    } else if (months < 12) {
+      return `il y a ${months} mois`;
+    } else {
+      return `il y a ${years} an${years > 1 ? 's' : ''}`;
+    }
+  },
 };
 
 // Utilitaires pour l'authentification

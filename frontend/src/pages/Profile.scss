@@ -1,0 +1,175 @@
+@use 'sass:color';
+@use '../styles/variables' as *;
+
+.profile-page-container {
+  padding: 2rem;
+  background-color: $background-color;
+  color: $text-color;
+
+  .breadcrumbs {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: $text-color-secondary;
+    a {
+      color: $secondary-color;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    svg {
+      vertical-align: middle;
+      margin: 0 0.5rem;
+    }
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .profile-main-card {
+    @include card-style;
+    @include glass-effect;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, $secondary-color, color.adjust($secondary-color, $lightness: -15%));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      font-weight: bold;
+      color: $primary-color;
+      margin-bottom: 1rem;
+      border: 3px solid $secondary-color;
+    }
+
+    .profile-username {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: $primary-color;
+      &.admin {
+        background-color: $secondary-color;
+      }
+      &.user {
+        background-color: color.adjust($secondary-color, $lightness: 10%);
+      }
+    }
+
+    .profile-description {
+      font-size: 0.9rem;
+      color: $text-color-secondary;
+    }
+  }
+
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+
+    .stat-item {
+      @include card-style;
+      padding: 1.5rem;
+      text-align: center;
+
+      .stat-icon {
+        font-size: 2.5rem;
+        color: $secondary-color;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: $text-color-secondary;
+      }
+    }
+  }
+
+  .info-card {
+    @include card-style;
+    grid-column: 1 / -1;
+
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid $border-color;
+
+      h3 {
+        font-size: 1.2rem;
+        margin: 0;
+      }
+    }
+
+    .info-content {
+      padding: 1.5rem;
+
+      .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 0.8rem 0;
+          border-bottom: 1px solid $border-color-light;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .info-icon {
+            color: $secondary-color;
+          }
+
+          .info-text {
+            .primary {
+              display: block;
+              font-weight: 500;
+            }
+            .secondary {
+              font-size: 0.9rem;
+              color: $text-color-secondary;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .actions-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+}

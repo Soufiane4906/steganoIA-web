@@ -1,0 +1,462 @@
+@use '../styles/variables' as *;
+
+// ═══════════════════════════════════════════════════════════════════
+// 🎯 MAGIC DASHBOARD - Futuristic Interface
+// ═══════════════════════════════════════════════════════════════════
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  position: relative;
+
+  // ✨ Animation d'entrée
+  animation: magic-float 0.8s ease-out;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: $spacing-xxl;
+  position: relative;
+
+  .title {
+    font-size: $font-size-xxxl;
+    font-family: $display-font;
+    font-weight: 900;
+    background: linear-gradient(135deg, $secondary-color, $accent-color, $tertiary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: $spacing-md;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+
+    // ✨ Animation de pulsation
+    animation: magic-pulse 3s ease-in-out infinite;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, $secondary-color, $accent-color);
+      border-radius: 2px;
+      @include magic-glow($secondary-color, 1);
+    }
+  }
+
+  .subtitle {
+    font-size: $font-size-lg;
+    color: $text-color-secondary;
+    font-family: $code-font;
+    opacity: 0.8;
+    letter-spacing: 1px;
+  }
+
+  .welcome-message {
+    margin-top: $spacing-lg;
+    padding: $spacing-lg $spacing-xl;
+    @include magic-card;
+    display: inline-block;
+
+    .user-name {
+      color: $secondary-color;
+      font-weight: 700;
+      font-family: $code-font;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-xs;
+      margin-left: $spacing-md;
+      padding: $spacing-xs $spacing-md;
+      background: linear-gradient(135deg, $accent-color, $tertiary-color);
+      color: $background-dark;
+      border-radius: 20px;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      @include magic-glow($accent-color, 0.8);
+
+      svg {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xxl;
+
+  .stat-card {
+    @include magic-card;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all $transition-magic;
+
+    // 🌟 Effet de survol magique
+    &:hover {
+      transform: translateY(-12px) scale(1.05);
+      @include magic-glow($secondary-color, 2);
+
+      .stat-icon {
+        transform: scale(1.2) rotate(10deg);
+        color: $accent-color;
+      }
+
+      .stat-value {
+        transform: scale(1.1);
+      }
+    }
+
+    .stat-icon {
+      font-size: 3rem;
+      color: $secondary-color;
+      margin-bottom: $spacing-md;
+      transition: all $transition-magic;
+      filter: drop-shadow(0 0 10px rgba($secondary-color, 0.5));
+    }
+
+    .stat-value {
+      font-size: $font-size-xxl;
+      font-weight: 900;
+      font-family: $display-font;
+      color: $text-color;
+      margin-bottom: $spacing-sm;
+      transition: all $transition-magic;
+      background: linear-gradient(135deg, $text-color, $secondary-color);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: $font-size-base;
+      color: $text-color-secondary;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      font-family: $code-font;
+    }
+
+    .stat-trend {
+      position: absolute;
+      top: $spacing-md;
+      right: $spacing-md;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: 12px;
+      font-size: $font-size-xs;
+      font-weight: 600;
+
+      &.positive {
+        background: rgba($success-color, 0.2);
+        color: $success-color;
+        border: 1px solid rgba($success-color, 0.3);
+      }
+
+      &.negative {
+        background: rgba($error-color, 0.2);
+        color: $error-color;
+        border: 1px solid rgba($error-color, 0.3);
+      }
+    }
+  }
+}
+
+.dashboard-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xxl;
+
+  .action-card {
+    @include magic-card;
+    position: relative;
+    overflow: hidden;
+    transition: all $transition-magic;
+
+    &:hover {
+      transform: translateY(-8px) scale(1.03);
+      @include magic-glow($glow-color, 1.8);
+    }
+
+    .action-header {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      margin-bottom: $spacing-lg;
+
+      .action-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        color: $background-dark;
+        font-size: 1.5rem;
+        @include magic-glow($secondary-color, 1);
+
+        svg {
+          transition: transform $transition-normal;
+        }
+      }
+
+      .action-title {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $text-color;
+        font-family: $display-font;
+      }
+    }
+
+    .action-description {
+      color: $text-color-secondary;
+      margin-bottom: $spacing-lg;
+      line-height: 1.6;
+      font-size: $font-size-base;
+    }
+
+    .action-button {
+      @include magic-button($secondary-color);
+      width: 100%;
+      justify-content: center;
+
+      &:hover .action-icon svg {
+        transform: rotate(360deg);
+      }
+    }
+
+    // 🎨 Variantes colorées
+    &.upload-card {
+      border-color: rgba($accent-color, 0.3);
+
+      &:hover {
+        @include magic-glow($accent-color, 1.8);
+      }
+
+      .action-icon {
+        background: linear-gradient(135deg, $accent-color, $tertiary-color);
+      }
+
+      .action-button {
+        @include magic-button($accent-color);
+      }
+    }
+
+    &.gallery-card {
+      border-color: rgba($tertiary-color, 0.3);
+
+      &:hover {
+        @include magic-glow($tertiary-color, 1.8);
+      }
+
+      .action-icon {
+        background: linear-gradient(135deg, $tertiary-color, $secondary-color);
+      }
+
+      .action-button {
+        @include magic-button($tertiary-color);
+      }
+    }
+  }
+}
+
+.recent-activity {
+  @include magic-card;
+
+  .activity-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid rgba($secondary-color, 0.2);
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-xl;
+      font-family: $display-font;
+      color: $text-color;
+    }
+
+    .activity-icon {
+      color: $secondary-color;
+      font-size: 1.5rem;
+      @include magic-glow($secondary-color, 0.8);
+    }
+  }
+
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      padding: $spacing-md;
+      background: rgba($background-darker, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba($secondary-color, 0.1);
+      transition: all $transition-normal;
+
+      &:hover {
+        background: rgba($secondary-color, 0.05);
+        border-color: rgba($secondary-color, 0.3);
+        transform: translateX(5px);
+      }
+
+      .activity-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $background-dark;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .activity-content {
+        flex: 1;
+
+        .activity-text {
+          color: $text-color;
+          margin-bottom: $spacing-xs;
+          font-weight: 500;
+        }
+
+        .activity-time {
+          color: $text-color-muted;
+          font-size: $font-size-sm;
+          font-family: $code-font;
+        }
+      }
+
+      .activity-status {
+        padding: $spacing-xs $spacing-sm;
+        border-radius: 8px;
+        font-size: $font-size-xs;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        &.success {
+          background: rgba($success-color, 0.2);
+          color: $success-color;
+          border: 1px solid rgba($success-color, 0.3);
+        }
+
+        &.processing {
+          background: rgba($warning-color, 0.2);
+          color: $warning-color;
+          border: 1px solid rgba($warning-color, 0.3);
+        }
+
+        &.error {
+          background: rgba($error-color, 0.2);
+          color: $error-color;
+          border: 1px solid rgba($error-color, 0.3);
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: $spacing-xxl;
+    color: $text-color-muted;
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: $spacing-lg;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-md;
+    }
+
+    .empty-subtitle {
+      font-size: $font-size-sm;
+      opacity: 0.7;
+    }
+  }
+}
+
+// 📱 Responsive Design
+@media (max-width: 1200px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .dashboard-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: $spacing-md;
+  }
+
+  .dashboard-header .title {
+    font-size: $font-size-xxl;
+    letter-spacing: 1px;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .dashboard-actions {
+    gap: $spacing-md;
+  }
+
+  .action-card .action-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .recent-activity .activity-item {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-sm;
+  }
+}
+
+// 🎪 Animations spéciales pour le dashboard
+@keyframes dashboard-enter {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-container > * {
+  animation: dashboard-enter 0.6s ease-out;
+}
+
+.dashboard-container > *:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-container > *:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-container > *:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-container > *:nth-child(4) { animation-delay: 0.4s; }

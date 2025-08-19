@@ -9,7 +9,7 @@ import UploadImages from './pages/UploadImages';
 import Gallery from './pages/Gallery';
 import Profile from './pages/Profile';
 import Auth from './pages/Auth';
-import './App.css';
+import './App.scss';
 
 const theme = createTheme({
   palette: {

@@ -1,0 +1,428 @@
+@use 'sass:color';
+@use 'sass:math';
+
+// ================================
+// 🎨 PALETTE DE COULEURS MAGIQUE
+// ================================
+
+// Couleurs principales
+$primary-color: #0a192f;
+$secondary-color: #64ffda;
+$tertiary-color: #ff9500;
+$accent-color: #ff6b6b;
+$background-dark: #0d1421;
+$background-light: #112240;
+
+// Couleurs de fond
+$background-color: $background-dark;
+$card-background-color: rgba(17, 34, 64, 0.8);
+$surface-color: rgba(100, 255, 218, 0.05);
+
+// Couleurs de texte
+$text-color: #e6f1ff;
+$text-color-secondary: #8892b0;
+$text-color-muted: #495670;
+
+// Couleurs d'état
+$success-color: #00d2d3;
+$warning-color: #ffbf69;
+$error-color: #ff6b6b;
+$info-color: #64ffda;
+
+// Couleurs des bordures
+$border-color: rgba(100, 255, 218, 0.2);
+$border-color-light: rgba(100, 255, 218, 0.1);
+$border-hover: rgba(100, 255, 218, 0.4);
+
+// ================================
+// 📏 ESPACEMENTS
+// ================================
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// ================================
+// 🔤 TYPOGRAPHIE
+// ================================
+$main-font: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$code-font: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+$display-font: 'Orbitron', 'Exo 2', $code-font;
+
+// Tailles de police
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-xxl: 1.875rem;
+$font-size-xxxl: 2.5rem;
+
+// ================================
+// 🎭 ANIMATIONS ET TRANSITIONS
+// ================================
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+$cubic-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+$bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// ================================
+// 📐 BORDURES ET RAYONS
+// ================================
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 20px;
+
+// ================================
+// 🌟 MIXINS MAGIQUES
+// ================================
+
+// Effet de verre avec backdrop-filter
+@mixin glass-effect($opacity: 0.1) {
+  background: rgba(100, 255, 218, $opacity);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+}
+
+// Style de carte avec animation
+@mixin card-style($padding: $spacing-xl) {
+  background: linear-gradient(135deg,
+    rgba(17, 34, 64, 0.9) 0%,
+    rgba(13, 20, 33, 0.8) 100%);
+  border-radius: $border-radius-lg;
+  padding: $padding;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(100, 255, 218, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all $transition-normal $cubic-bezier;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(100, 255, 218, 0.4) 50%,
+      transparent 100%);
+  }
+}
+
+// Style de bouton avec effets magiques
+@mixin button-style($color: $secondary-color, $variant: 'primary') {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: $border-radius-md;
+  font-family: $code-font;
+  font-weight: 600;
+  font-size: $font-size-base;
+  cursor: pointer;
+  transition: all $transition-normal $cubic-bezier;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  @if $variant == 'primary' {
+    background: linear-gradient(135deg, $color 0%, color.adjust($color, $lightness: -20%) 100%);
+    color: $background-dark;
+    box-shadow:
+      0 4px 15px rgba($color, 0.4),
+      0 0 0 1px rgba($color, 0.2);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%);
+      transition: left $transition-slow;
+    }
+
+    &:hover::before {
+      left: 100%;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 25px rgba($color, 0.6),
+        0 0 0 1px rgba($color, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  @if $variant == 'secondary' {
+    background: transparent;
+    color: $color;
+    border: 2px solid rgba($color, 0.5);
+
+    &:hover {
+      background: rgba($color, 0.1);
+      border-color: $color;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba($color, 0.3);
+    }
+  }
+
+  @if $variant == 'ghost' {
+    background: rgba($color, 0.1);
+    color: $color;
+    border: 1px solid rgba($color, 0.2);
+
+    &:hover {
+      background: rgba($color, 0.2);
+      border-color: rgba($color, 0.4);
+    }
+  }
+}
+
+// Animation de flottement
+@mixin floating-animation($duration: 3s) {
+  animation: floating $duration ease-in-out infinite;
+
+  @keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+// Effet de lueur néon
+@mixin neon-glow($color: $secondary-color, $intensity: 1) {
+  box-shadow:
+    0 0 5px rgba($color, 0.5 * $intensity),
+    0 0 10px rgba($color, 0.4 * $intensity),
+    0 0 15px rgba($color, 0.3 * $intensity),
+    0 0 20px rgba($color, 0.2 * $intensity);
+}
+
+// Effet de particules scintillantes
+@mixin sparkle-effect {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(100, 255, 218, 0.3) 2px, transparent 2px),
+      radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.3) 1px, transparent 1px),
+      radial-gradient(circle at 40% 80%, rgba(255, 191, 105, 0.3) 1px, transparent 1px);
+    background-size: 50px 50px, 30px 30px, 40px 40px;
+    animation: sparkle 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+}
+
+// Gradient de texte animé
+@mixin animated-text-gradient($colors: ($secondary-color, $accent-color, $warning-color)) {
+  background: linear-gradient(45deg, $colors...);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+}
+
+// Effet de morphing pour les containers
+@mixin morphing-container {
+  border-radius: $border-radius-xl;
+  transition: all $transition-slow $bounce;
+
+  &:hover {
+    border-radius: $border-radius-sm;
+    transform: scale(1.02);
+  }
+}
+
+// Scrollbar personnalisée
+@mixin custom-scrollbar($width: 8px, $track-color: rgba(100, 255, 218, 0.1), $thumb-color: rgba(100, 255, 218, 0.3)) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: 10px;
+    transition: background $transition-normal;
+
+    &:hover {
+      background: rgba(100, 255, 218, 0.5);
+    }
+  }
+}
+
+// ================================
+// 🎮 CLASSES UTILITAIRES
+// ================================
+
+// Animations globales
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ================================
+// 📱 BREAKPOINTS RESPONSIFS
+// ================================
+$breakpoints: (
+  'mobile': 480px,
+  'tablet': 768px,
+  'desktop': 1024px,
+  'wide': 1200px
+);
+
+@mixin respond-to($breakpoint) {
+  $size: map-get($breakpoints, $breakpoint);
+
+  @if $size {
+    @media (min-width: $size) {
+      @content;
+    }
+  }
+}
+
+// ================================
+// 🎯 ÉTATS SPÉCIAUX
+// ================================
+
+// État de chargement
+@mixin loading-state {
+  position: relative;
+  color: transparent;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid rgba($secondary-color, 0.3);
+    border-top: 2px solid $secondary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+// État désactivé
+@mixin disabled-state {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+// ================================
+// 🌈 THÈMES ADDITIONNELS
+// ================================
+
+// Variables pour thème sombre intense
+$dark-theme: (
+  'background': #000814,
+  'surface': #001d3d,
+  'primary': #003566,
+  'secondary': #ffd60a,
+  'accent': #ff006e
+);
+
+// Variables pour thème cyberpunk
+$cyberpunk-theme: (
+  'background': #0f0f0f,
+  'surface': #1a0033,
+  'primary': #ff00ff,
+  'secondary': #00ffff,
+  'accent': #ffff00
+);
+
+// Export des variables pour JS
+:export {
+  primaryColor: #{$primary-color};
+  secondaryColor: #{$secondary-color};
+  accentColor: #{$accent-color};
+  backgroundColor: #{$background-color};
+  textColor: #{$text-color};
+}

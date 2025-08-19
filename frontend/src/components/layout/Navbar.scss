@@ -1,0 +1,542 @@
+@use '../../styles/variables' as *;
+
+// ═══════════════════════════════════════════════════════════════════
+// 🚀 MAGIC NAVBAR - Futuristic Navigation
+// ═══════════════════════════════════════════════════════════════════
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  @include glass-effect;
+  background: linear-gradient(135deg,
+    rgba($primary-color, 0.95),
+    rgba($background-dark, 0.85)
+  ) !important;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba($secondary-color, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 50px rgba($secondary-color, 0.1);
+
+  // ✨ Animation d'entrée
+  animation: navbar-slide-down 0.8s ease-out;
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 $spacing-xl;
+    min-height: 80px;
+    position: relative;
+
+    // 🌟 Ligne lumineuse animée en bas
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        $secondary-color 20%,
+        $accent-color 50%,
+        $tertiary-color 80%,
+        transparent 100%
+      );
+      opacity: 0.6;
+      animation: magic-shimmer 3s ease-in-out infinite;
+    }
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    cursor: pointer;
+    color: $secondary-color;
+    transition: all $transition-magic;
+    position: relative;
+
+    .logo-icon {
+      font-size: 2.5rem;
+      transition: all $transition-magic;
+      filter: drop-shadow(0 0 15px rgba($secondary-color, 0.4));
+      position: relative;
+
+      // 🎭 Cercle lumineux autour de l'icône
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        background: linear-gradient(45deg, $secondary-color, $accent-color) border-box;
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        opacity: 0;
+        transition: all $transition-magic;
+        animation: magic-rotate 10s linear infinite;
+      }
+    }
+
+    .logo-text {
+      font-family: $display-font;
+      font-size: $font-size-xl;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, $secondary-color, $accent-color, $tertiary-color);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+      position: relative;
+
+      // ✨ Effet de scintillement
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.4) 50%,
+          transparent 100%
+        );
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.05);
+
+      .logo-icon {
+        transform: rotate(15deg) scale(1.1);
+        filter: drop-shadow(0 0 25px rgba($secondary-color, 0.6));
+
+        &::before {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.2);
+        }
+      }
+
+      .logo-text::after {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: $spacing-sm;
+
+    .nav-button {
+      color: $text-color;
+      font-family: $code-font;
+      padding: $spacing-md $spacing-lg;
+      border-radius: 12px;
+      transition: all $transition-magic;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid transparent;
+
+      // 🌊 Effet de vague au survol
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg,
+          transparent,
+          rgba($secondary-color, 0.2),
+          transparent
+        );
+        transition: left $transition-slow;
+      }
+
+      // 🎯 Indicateur de page active
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, $secondary-color, $accent-color);
+        border-radius: 2px;
+        transition: width $transition-normal;
+      }
+
+      &:hover {
+        color: $secondary-color;
+        border-color: rgba($secondary-color, 0.3);
+        transform: translateY(-2px);
+        @include magic-glow($secondary-color, 0.8);
+
+        &::before {
+          left: 100%;
+        }
+
+        &::after {
+          width: 80%;
+        }
+
+        svg {
+          transform: scale(1.1) rotate(5deg);
+        }
+      }
+
+      &.active {
+        background: linear-gradient(135deg,
+          rgba($secondary-color, 0.2),
+          rgba($accent-color, 0.1)
+        );
+        color: $secondary-color;
+        border-color: rgba($secondary-color, 0.4);
+        @include magic-glow($secondary-color, 1.2);
+        transform: translateY(-2px);
+
+        &::after {
+          width: 100%;
+        }
+      }
+
+      svg {
+        transition: transform $transition-normal;
+        margin-right: $spacing-xs;
+      }
+    }
+  }
+
+  .user-menu-container {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    .user-chip {
+      color: $text-color;
+      border-color: rgba($secondary-color, 0.5);
+      font-family: $code-font;
+      background: rgba($background-darker, 0.6);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      transition: all $transition-magic;
+      border-radius: 25px;
+      padding: $spacing-sm $spacing-md;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+
+      .MuiChip-icon {
+        color: $secondary-color;
+        transition: transform $transition-normal;
+        font-size: 1.2rem !important;
+      }
+
+      &:hover {
+        background: rgba($secondary-color, 0.1);
+        border-color: $secondary-color;
+        color: $secondary-color;
+        transform: translateY(-2px) scale(1.05);
+        @include magic-glow($secondary-color, 1);
+
+        .MuiChip-icon {
+          transform: scale(1.2) rotate(10deg);
+        }
+      }
+    }
+
+    .avatar-button {
+      transition: all $transition-magic;
+      position: relative;
+
+      // 🎭 Cercle lumineux autour de l'avatar
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        background: linear-gradient(45deg, $secondary-color, $accent-color) border-box;
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask-composite: xor;
+        opacity: 0;
+        transition: all $transition-magic;
+        animation: magic-rotate 15s linear infinite;
+      }
+
+      &:hover {
+        transform: translateY(-3px) scale(1.1);
+
+        &::before {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.3);
+        }
+      }
+
+      .avatar {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, $secondary-color, $accent-color);
+        color: $background-dark;
+        font-weight: bold;
+        font-family: $display-font;
+        border: 3px solid rgba($secondary-color, 0.5);
+        transition: all $transition-magic;
+        @include magic-glow($secondary-color, 0.8);
+
+        &:hover {
+          border-color: $secondary-color;
+          @include magic-glow($secondary-color, 1.5);
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .menu-paper {
+    @include glass-effect;
+    background: linear-gradient(135deg,
+      rgba($card-background-color, 0.95),
+      rgba($background-dark, 0.85)
+    ) !important;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba($secondary-color, 0.3);
+    color: $text-color;
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.4),
+      0 0 50px rgba($secondary-color, 0.2);
+    border-radius: 16px;
+    margin-top: $spacing-sm;
+    overflow: hidden;
+
+    // ✨ Animation d'ouverture
+    animation: menu-slide-in 0.3s ease-out;
+
+    .MuiMenuItem-root {
+      font-family: $main-font;
+      padding: $spacing-md $spacing-lg;
+      transition: all $transition-magic;
+      border-radius: 12px;
+      margin: $spacing-xs;
+      position: relative;
+      overflow: hidden;
+
+      // 🌊 Effet de vague
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg,
+          transparent,
+          rgba($secondary-color, 0.1),
+          transparent
+        );
+        transition: left $transition-normal;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg,
+          rgba($secondary-color, 0.1),
+          rgba($accent-color, 0.05)
+        );
+        transform: translateX(8px) scale(1.02);
+        @include magic-glow($secondary-color, 0.5);
+
+        &::before {
+          left: 100%;
+        }
+      }
+
+      &[aria-selected="true"] {
+        background: linear-gradient(135deg,
+          rgba($secondary-color, 0.2),
+          rgba($accent-color, 0.1)
+        );
+        color: $secondary-color;
+        border: 1px solid rgba($secondary-color, 0.3);
+      }
+
+      .MuiListItemIcon-root {
+        color: $text-color-secondary;
+        transition: all $transition-normal;
+        min-width: 45px;
+
+        svg {
+          filter: drop-shadow(0 0 8px rgba($secondary-color, 0.3));
+          transition: all $transition-normal;
+        }
+      }
+
+      &:hover .MuiListItemIcon-root {
+        color: $secondary-color;
+        transform: scale(1.2) rotate(5deg);
+
+        svg {
+          filter: drop-shadow(0 0 15px rgba($secondary-color, 0.6));
+        }
+      }
+
+      .MuiListItemText-root {
+        .MuiListItemText-primary {
+          font-weight: 600;
+          transition: all $transition-normal;
+        }
+      }
+
+      &:hover .MuiListItemText-primary {
+        color: $secondary-color;
+        transform: translateX(5px);
+      }
+    }
+
+    .MuiDivider-root {
+      border-color: rgba($secondary-color, 0.3);
+      margin: $spacing-sm 0;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba($secondary-color, 0.5),
+        transparent
+      );
+    }
+
+    // 🎨 Section utilisateur stylée
+    .MuiBox-root {
+      background: linear-gradient(135deg,
+        rgba($background-darker, 0.5),
+        rgba($primary-color, 0.3)
+      );
+      border-radius: 12px;
+      margin: $spacing-sm;
+      padding: $spacing-lg;
+      border: 1px solid rgba($secondary-color, 0.2);
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg,
+          transparent,
+          rgba($secondary-color, 0.05),
+          transparent
+        );
+        animation: magic-shimmer 4s ease-in-out infinite;
+      }
+
+      .MuiTypography-subtitle2 {
+        color: $text-color-secondary;
+        font-family: $code-font;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: $font-size-xs;
+        font-weight: 600;
+        margin-bottom: $spacing-xs;
+      }
+
+      .MuiTypography-body1 {
+        color: $secondary-color;
+        font-family: $display-font;
+        font-weight: 700;
+        font-size: $font-size-lg;
+        text-shadow: 0 0 10px rgba($secondary-color, 0.3);
+      }
+    }
+  }
+}
+
+// 🎪 Animations spéciales
+@keyframes navbar-slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes menu-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// 📱 Responsive Design
+@media (max-width: 768px) {
+  .navbar {
+    .nav-links {
+      display: none;
+    }
+
+    .user-chip {
+      display: none;
+    }
+
+    .toolbar {
+      padding: 0 $spacing-md;
+      min-height: 70px;
+    }
+
+    .logo-container {
+      .logo-text {
+        font-size: $font-size-lg;
+      }
+
+      .logo-icon {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+// 🎯 États spéciaux
+.navbar.scrolled {
+  background: linear-gradient(135deg,
+    rgba($primary-color, 0.98),
+    rgba($background-dark, 0.95)
+  ) !important;
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 60px rgba($secondary-color, 0.15);
+}
+
+.navbar.transparent {
+  background: rgba($background-dark, 0.1) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
